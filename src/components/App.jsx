@@ -2,7 +2,15 @@ import React, { Component } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import PersonTable from "./personTable";
-import getPeople, { getPeopleById, createPerson, deletePerson } from "../api/personApi";
+import getPeople, {
+  //getCities,
+  //getCountries,
+  getPeopleById,
+  createPerson,
+  deletePerson,
+  getCities,
+  getCountries, 
+} from "../api/personApi";
 import PersonDetails from "./personDetails";
 import PersonCreate from "./personCreate";
 
@@ -11,16 +19,27 @@ class App extends Component {
     personList: [],
     detailsPerson: null,
     createPerson: false,
+    cityList: [],
+    countryList: [],
   };
 
+  //som en constructor, on startup
   componentDidMount() {
     const _this = this;
     getPeople().then((people) => {
       _this.setState({ personList: people });
     });
+
+    getCities().then((cities) => {
+      _this.setState({ cityList: cities });
+    });
+
+    getCountries().then(( countries) => {
+      _this.setState({countryList: countries })
+    });
   }
 
-   //------------- Find Person partial show and close
+  //------------- Find Person partial show and close
   findPerson = async (id) => {
     return await getPeopleById(id);
   };
@@ -42,24 +61,25 @@ class App extends Component {
   };
 
   //------------- Create Person partial show and close
-  showCreatePerson =() =>{
+  showCreatePerson = () => {
     this.setState({
-      createPerson:true,
+      createPerson: true,
     });
   };
 
-  closeCreate =() =>{
+  closeCreate = () => {
     this.setState({
-      createPerson:false,
+      createPerson: false,
     });
   };
 
-  addPerson = async (person) =>{
+  addPerson = async (person) => {
     const personList = this.state.personList;
     person = await createPerson(person);
-    console.log(person);
+    console.log("addPerson: " + person);
 
-    if(person !== undefined){
+    if (person !== undefined) {
+      console.log("not undefined addPerson:" + person);
       personList.push(person);
     }
 
@@ -69,20 +89,26 @@ class App extends Component {
     });
   };
 
-  deletePersonHandler =(id) =>{
+  deletePersonHandler = (id) => {
     const person = this.findPerson(id);
-    if (person != null ){
-      if (deletePerson(id)){
-        const persons= this.state.personList;
-        persons.forEach((element) => {
-          if(element.id ===id){
-            persons.pop(element);
+    if (person != null) {
+      if (deletePerson(id)) {
+        const persons = this.state.personList;
+
+        let personIndex = -1;
+        for (let i = 0; i < persons.length; i++) {
+          if (persons[i].id === id) {
+            personIndex = i;
           }
-        });
-        this.setState({
-          personList: persons,
-          detailsPerson: null,
-        });
+        }
+
+        if (personIndex > -1) {
+          persons.splice(personIndex, 1);
+          this.setState({
+            personList: persons,
+            detailsPerson: null,
+          });
+        }
       }
     }
   };
@@ -93,8 +119,7 @@ class App extends Component {
         <PersonDetails
           person={this.state.detailsPerson}
           closeDetails={this.closeDetails}
-          deletePerson={this.deletePerson}
-
+          removePerson={this.deletePersonHandler}
         />
       ) : this.state.createPerson ? (
         <PersonCreate
@@ -106,7 +131,6 @@ class App extends Component {
           <button onClick={this.showCreatePerson} className="btn btn-success">
             Add Person
           </button>
-        
         </div>
       );
 
