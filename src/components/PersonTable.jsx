@@ -6,8 +6,17 @@ const PersonTable = (props) => {
       <tr key={person.id}>
         <td>{person.name}</td>
         <td>{person.phone}</td>
-        <td>{person.city}</td>
-        <td>{person.language}</td>
+        <td>{person.cityId}</td>
+        <td>
+          <button
+            onClick={() => {
+              props.showPerson(person.id);
+            }}
+            className="btn btn-info"
+          >
+            Details
+          </button>
+        </td>
       </tr>
     );
   });
@@ -20,7 +29,7 @@ const PersonTable = (props) => {
             <th>Name</th>
             <th>Phone</th>
             <th>City</th>
-            <th>Language</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
