@@ -37,7 +37,7 @@ export async function createPerson(person) {
       Name: person.Name,
       Phone: person.Phone,
       CityId: person.CityId, //ändrade från City
-      Country: person.Country,
+      //Country: person.Country,
       Language: person.Language,
     });
     console.log("createPerson Respons:", response);
