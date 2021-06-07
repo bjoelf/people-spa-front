@@ -3,8 +3,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 import PersonTable from "./personTable";
 import getPeople, {
-  //getCities,
-  //getCountries,
   getPeopleById,
   createPerson,
   deletePerson,
@@ -75,11 +73,11 @@ class App extends Component {
 
   addPerson = async (person) => {
     const personList = this.state.personList;
+    console.log("addPerson before api call: " + person.Name, person.CityId, person.Phone);
     person = await createPerson(person);
-    console.log("addPerson: " + person);
 
     if (person !== undefined) {
-      console.log("not undefined addPerson:" + person);
+      console.log("After backend:" + person.name, person.cityId, person.phone);
       personList.push(person);
     }
 
@@ -124,7 +122,7 @@ class App extends Component {
       ) : this.state.createPerson ? (
         <PersonCreate
           addPerson={this.addPerson}
-          closeCreate={this.closeCreate}
+          closeCreate={this.closeCreate} cityArray={this.state.cityList}
         />
       ) : (
         <div className="col-md-6">

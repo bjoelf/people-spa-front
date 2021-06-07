@@ -1,6 +1,7 @@
 import React from "react";
 
 const PersonDetails = (props) => {
+
   let countryName = "No Country";
   if (props.person.LiveInCity != null) {
     if (props.person.LiveInCity.Country != null) {
@@ -31,9 +32,9 @@ const PersonDetails = (props) => {
           <b>City</b>
           <p>
             {
-              props.person.LiveInCity == null
+              props.person.liveInCity == null /* null check */
                 ? "No City"
-                : props.person.LiveInCity.cityName /* null check */
+                : props.person.liveInCity.cityName 
             }
           </p>
         </li>
@@ -53,8 +54,8 @@ const PersonDetails = (props) => {
           </button>
           <button
             className="btn btn-danger"
-            //onClick={() => props.deletePerson(props.person.id)}
-            onClick={() => props.deletePersonHandler(props.person.id)}
+            // deletePerson={this.deletePersonHandler} app.jsx
+            onClick={() => props.removePerson(props.person.id)}
           >
             Delete
           </button>
