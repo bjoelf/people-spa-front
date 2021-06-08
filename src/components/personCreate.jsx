@@ -16,11 +16,21 @@ class PersonCreate extends Component {
   render() {
     //lägg list city och country grejerna här....
 
-    const options = this.props.cityArray.map((cityItem) => {
-      return <option key={cityItem.id} value={cityItem.id}>{cityItem.cityName}</option>;
+    const optionsCity = this.props.cityArray.map((cityItem) => {
+      return (
+        <option key={cityItem.id} value={cityItem.id}>
+          {cityItem.cityName}
+        </option>
+      );
     });
 
-    
+    const optionsCountry = this.props.countryArray.map((countryItem) => {
+      return (
+        <option key={countryItem.id} value={countryItem.id}>
+          {countryItem.countryName}
+        </option>
+      );
+    });
 
     return (
       <div className="col-md-6">
@@ -42,12 +52,22 @@ class PersonCreate extends Component {
               placeholder="Enter Name"
             />
           </div>
+
+          <div className="row mb-2">
+            <label htmlFor="country" className="col-2 mt-2">
+              Country:
+            </label>
+            <select id="country" required>
+              {optionsCountry}
+            </select>
+          </div>
+
           <div className="row mb-2">
             <label htmlFor="city" className="col-2 mt-2">
               City:
             </label>
             <select id="city" required>
-              {options}
+              {optionsCity}
             </select>
           </div>
 

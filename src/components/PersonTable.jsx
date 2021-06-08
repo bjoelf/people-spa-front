@@ -6,7 +6,7 @@ const PersonTable = (props) => {
       <tr key={person.id}>
         <td>{person.name}</td>
         <td>{person.phone}</td>
-        <td>{person.cityId}</td>
+        <td>{person.liveInCity.cityName}</td>
         <td>
           <button
             onClick={() => {
@@ -22,7 +22,8 @@ const PersonTable = (props) => {
   });
 
   return (
-    <div className="col-md-6 middle-bar">
+    
+    <div className="col-md-6 middle-bar" >
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
           <tr>

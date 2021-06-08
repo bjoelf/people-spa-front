@@ -7,7 +7,7 @@ import getPeople, {
   createPerson,
   deletePerson,
   getCities,
-  getCountries, 
+  getCountries,
 } from "../api/personApi";
 import PersonDetails from "./personDetails";
 import PersonCreate from "./personCreate";
@@ -32,8 +32,8 @@ class App extends Component {
       _this.setState({ cityList: cities });
     });
 
-    getCountries().then(( countries) => {
-      _this.setState({countryList: countries })
+    getCountries().then((countries) => {
+      _this.setState({ countryList: countries });
     });
   }
 
@@ -73,7 +73,11 @@ class App extends Component {
 
   addPerson = async (person) => {
     const personList = this.state.personList;
-    console.log("addPerson before api call: " + person.Name, person.CityId, person.Phone);
+    console.log(
+      "addPerson before api call: " + person.Name,
+      person.CityId,
+      person.Phone
+    );
     person = await createPerson(person);
 
     if (person !== undefined) {
@@ -111,6 +115,15 @@ class App extends Component {
     }
   };
 
+  sortPersonTable = () => {
+    const sortList = this.state.personList;
+    sortList.sort((a, b) => (a.name > b.name ? 1 : -1));
+
+    this.setState({
+      personList: sortList,
+    });
+  };
+  
   render() {
     const sideElement =
       this.state.detailsPerson != null ? (
@@ -122,12 +135,18 @@ class App extends Component {
       ) : this.state.createPerson ? (
         <PersonCreate
           addPerson={this.addPerson}
-          closeCreate={this.closeCreate} cityArray={this.state.cityList}
+          closeCreate={this.closeCreate}
+          cityArray={this.state.cityList}
+          countryArray={this.state.countryList}
         />
       ) : (
-        <div className="col-md-6">
+        <div margin className="col-md-6">
           <button onClick={this.showCreatePerson} className="btn btn-success">
             Add Person
+          </button>
+
+          <button onClick={this.sortPersonTable} className="btn btn-secondary">
+            Sortera på namn
           </button>
         </div>
       );
